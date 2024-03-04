@@ -166,6 +166,13 @@ element_schema = ElementSchema()
 elements_schema = ElementSchema(many=True)
 
 
+class ElementTableSchema(ma.Schema):
+    class Meta:
+        fields = ['name', 'symbol', 'atomic_number']
+
+element_table_schema = ElementSchema(many=True)
+
+
 
 # test = Element()
 # print(test.api_call())

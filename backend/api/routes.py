@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required
 import requests
 
 # internal imports
-from backend.models import Element, User, db, element_schema, elements_schema
+from backend.models import Element, User, db, element_schema, elements_schema, element_table_schema
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -34,10 +34,6 @@ def get_periodic_table():
     # return jsonify(response)
 
 
-    # all_elements = Element.query.all()
-    # response = elements_schema.dump(all_elements)
-    # return jsonify(response)
-
 
 # THIS ONE WORKS TO GET ALL DATA
     # r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
@@ -58,13 +54,18 @@ def get_periodic_table():
                 element = {
                     'name': item['name'], 
                     'symbol': item['symbol'],
-                    'atomic number' : item['number'],
+                    'atomic_number' : item['number'],
                     'xpos': item['xpos'],
                     'ypos': item['ypos']
                 }
 
                 listy.append(element)
             return jsonify(listy)
+    
+
+    # table_elements = Element.query.all()
+    # response = element_table_schema.dump(table_elements)
+    # return jsonify(response)
 
 
 
