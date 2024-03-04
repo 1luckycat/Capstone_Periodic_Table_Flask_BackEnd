@@ -99,12 +99,12 @@ class Element(db.Model):
                 element = {
                     'name': self.name, 
                     'symbol': self.symbol,
-                    'atomic number' : self.atomic_number,
+                    'atomic_number' : self.atomic_number,
                     'phase' : self.phase,
-                    'atomic mass' : self.atomic_mass,
+                    'atomic_mass' : self.atomic_mass,
                     'summary': self.summary,
-                    'boiling point': self.boil,
-                    'melting point': self.melt
+                    'boiling_point': self.boil,
+                    'melting_point': self.melt
                 }
                 listy.append(element)
         return listy
@@ -138,12 +138,12 @@ class Element(db.Model):
                 element = {
                     'name': self.name, 
                     'symbol': self.symbol,
-                    'atomic number' : self.atomic_number,
+                    'atomic_number' : self.atomic_number,
                     'phase' : self.phase,
-                    'atomic mass' : self.atomic_mass,
+                    'atomic_mass' : self.atomic_mass,
                     'summary': self.summary,
-                    'boiling point': self.boil,
-                    'melting point': self.melt
+                    'boiling_point': self.boil,
+                    'melting_point': self.melt
                 }
 
                 listy.append(element)
