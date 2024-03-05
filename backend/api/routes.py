@@ -56,7 +56,8 @@ def get_periodic_table():
                     'symbol': item['symbol'],
                     'atomic_number' : item['number'],
                     'xpos': item['xpos'],
-                    'ypos': item['ypos']
+                    'ypos': item['ypos'],
+                    'category': item['category']
                 }
 
                 listy.append(element)
