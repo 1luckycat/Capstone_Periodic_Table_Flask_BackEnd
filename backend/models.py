@@ -57,11 +57,12 @@ class Element(db.Model):
     summary = db.Column(db.String)
     boil = db.Column(db.Numeric(precision=10, scale=5))
     melt = db.Column(db.Numeric(precision=10, scale=5))
+    category = db.Column(db.String(50))
     notes = db.Column(db.String)
     date_added = db.Column(db.DateTime, default = datetime.utcnow())
     user_id = db.Column(db.String, db.ForeignKey('user.user_id'))
 
-    def __init__(self, name):
+    def __init__(self, name, notes = ""):
         self.element_id = self.set_id()
         self.name = name
         self.symbol = None
@@ -71,7 +72,8 @@ class Element(db.Model):
         self.summary = None
         self.boil = None
         self.melt = None
-        self.notes = None
+        self.category = None
+        self.notes = notes
         self.api_call()
         
 # !!!---- for api can be a dictionary, but needs to be an object when adding to the database in routes due to ROM
@@ -95,6 +97,7 @@ class Element(db.Model):
                 self.summary = item['summary']
                 self.boil = item['boil']
                 self.melt = item['melt']
+                self.category = item['category']
                 
                 element = {
                     'name': self.name, 
@@ -104,7 +107,8 @@ class Element(db.Model):
                     'atomic_mass' : self.atomic_mass,
                     'summary': self.summary,
                     'boiling_point': self.boil,
-                    'melting_point': self.melt
+                    'melting_point': self.melt,
+                    'category': self.category
                 }
                 listy.append(element)
         return listy
@@ -134,6 +138,7 @@ class Element(db.Model):
                 self.summary = item['summary']
                 self.boil = item['boil']
                 self.melt = item['melt']
+                self.category = item['category']
                 
                 element = {
                     'name': self.name, 
@@ -143,7 +148,8 @@ class Element(db.Model):
                     'atomic_mass' : self.atomic_mass,
                     'summary': self.summary,
                     'boiling_point': self.boil,
-                    'melting_point': self.melt
+                    'melting_point': self.melt,
+                    'category': self.category
                 }
 
                 listy.append(element)
@@ -160,7 +166,7 @@ class Element(db.Model):
 
 class ElementSchema(ma.Schema):
     class Meta:
-        fields = ['element_id', 'name', 'symbol', 'atomic_number', 'phase', 'atomic_mass', 'summary', 'boil', 'melt', 'notes']
+        fields = ['element_id', 'name', 'symbol', 'atomic_number', 'phase', 'atomic_mass', 'summary', 'boil', 'melt', 'category', 'notes']
 
 element_schema = ElementSchema()
 elements_schema = ElementSchema(many=True)

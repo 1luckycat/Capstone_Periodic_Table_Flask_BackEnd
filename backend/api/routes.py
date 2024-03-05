@@ -7,6 +7,7 @@ from backend.models import Element, User, db, element_schema, elements_schema, e
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
+
 @api.route('/token', methods=['GET', 'POST'])
 def token():
     data = request.json
@@ -32,8 +33,6 @@ def get_periodic_table():
     # print(elements_data)
     # response = elements_schema.dump(elements_data)
     # return jsonify(response)
-
-
 
 # THIS ONE WORKS TO GET ALL DATA
     # r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
@@ -86,8 +85,9 @@ def get_info():
 def add_element(user_id):
     data = request.json
     name = data['name']
+    notes = data['notes']
     print(name)
-    ele = Element(name)
+    ele = Element(name, notes)
     
     db.session.add(ele)
     db.session.commit()    
