@@ -62,9 +62,10 @@ class Element(db.Model):
     date_added = db.Column(db.DateTime, default = datetime.utcnow())
     user_id = db.Column(db.String, db.ForeignKey('user.user_id'))
 
-    def __init__(self, name, notes = ""):
+    def __init__(self, name, user_id, notes = ""):
         self.element_id = self.set_id()
         self.name = name
+        self.user_id = user_id
         self.symbol = None
         self.atomic_number = None
         self.phase = None

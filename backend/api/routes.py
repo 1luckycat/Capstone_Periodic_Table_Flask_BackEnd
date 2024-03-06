@@ -70,11 +70,11 @@ def get_periodic_table():
 
 
 # !!!---- for api can be a dictionary, but needs to be an object when adding to the database in routes due to ROM
-@api.route('/study', methods=['GET'])
+@api.route('/study/<user_id>', methods=['GET'])
 @jwt_required()
-def get_info():
+def get_info(user_id):
      
-    all_elements = Element.query.all()
+    all_elements = Element.query.filter_by(user_id == user_id).all()
     response = elements_schema.dump(all_elements)
     return jsonify(response)
 
@@ -87,7 +87,7 @@ def add_element(user_id):
     name = data['name']
     notes = data['notes']
     print(name)
-    ele = Element(name, notes)
+    ele = Element(name, user_id, notes)
     
     db.session.add(ele)
     db.session.commit()    
