@@ -74,7 +74,7 @@ def get_periodic_table():
 @jwt_required()
 def get_info(user_id):
      
-    all_elements = Element.query.filter_by(user_id == user_id).all()
+    all_elements = Element.query.filter(Element.user_id == user_id).all()
     response = elements_schema.dump(all_elements)
     return jsonify(response)
 
