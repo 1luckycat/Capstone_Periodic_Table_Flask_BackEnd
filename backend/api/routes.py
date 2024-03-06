@@ -99,8 +99,9 @@ def add_element(user_id):
 @jwt_required()
 def delete_element(element_id):
 
-    data = request.json
-    element_id = data['element_id']
+    # since delete, dont need to pass in data
+    # data = request.json
+    # element_id = data['element_id']
     element = Element.query.get(element_id)
     db.session.delete(element)
     db.session.commit()
