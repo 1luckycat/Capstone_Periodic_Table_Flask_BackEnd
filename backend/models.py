@@ -1,6 +1,5 @@
 from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin, LoginManager
 from datetime import datetime
 import uuid 
 from flask_marshmallow import Marshmallow
@@ -8,43 +7,7 @@ import requests
 
 
 db = SQLAlchemy()
-# login_manager = LoginManager()
 ma = Marshmallow()
-
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
-
-
-# class User(db.Model, UserMixin):
-#     user_id = db.Column(db.String, primary_key=True)
-#     username = db.Column(db.String(50), unique=True)
-#     email = db.Column(db.String(150), nullable=False, unique=True)
-#     password = db.Column(db.String, nullable=False)
-#     score = db.Column(db.Integer)
-#     date_added = db.Column(db.DateTime, default=datetime.utcnow())
-#     elements = db.relationship('Element', lazy=True, backref='user')
-
-
-#     def __init__(self, username, email, password):
-#         self.user_id = self.set_id()
-#         self.username = username
-#         self.email = email
-#         self.password = self.set_password(password)
-
-#     def set_id(self):
-#         return str(uuid.uuid4())
-    
-#     def get_id(self):
-#         return str(self.user_id)
-    
-#     def set_password(self, password):
-#         return generate_password_hash(password)
-    
-#     def __repr__(self):
-#         return f"<User: {self.username}>"
-    
 
 
 class Element(db.Model):
@@ -179,8 +142,3 @@ class ElementTableSchema(ma.Schema):
 
 element_table_schema = ElementSchema(many=True)
 
-
-
-# test = Element()
-# print(test.api_call())
-# print(test.getInfo('iron'))

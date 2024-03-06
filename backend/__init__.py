@@ -16,11 +16,6 @@ app.config.from_object(Config)
 jwt = JWTManager(app)
 
 
-# login_manager.init_app(app)
-# login_manager.login_message = "Please log in"
-# login_manager.login_message_category = 'warning'
-
-
 app.register_blueprint(api)
 
 
