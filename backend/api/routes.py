@@ -25,7 +25,7 @@ def token():
         }
     
 
-@api.route('/periodictable/<user_id>', methods=['GET'])
+@api.route('/periodictable', methods=['GET'])
 @jwt_required()
 def get_periodic_table():
     # elements = Element()
