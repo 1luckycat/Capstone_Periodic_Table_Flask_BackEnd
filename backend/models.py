@@ -17,33 +17,33 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-class User(db.Model, UserMixin):
-    user_id = db.Column(db.String, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    email = db.Column(db.String(150), nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
-    score = db.Column(db.Integer)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow())
-    elements = db.relationship('Element', lazy=True, backref='user')
+# class User(db.Model, UserMixin):
+#     user_id = db.Column(db.String, primary_key=True)
+#     username = db.Column(db.String(50), unique=True)
+#     email = db.Column(db.String(150), nullable=False, unique=True)
+#     password = db.Column(db.String, nullable=False)
+#     score = db.Column(db.Integer)
+#     date_added = db.Column(db.DateTime, default=datetime.utcnow())
+#     elements = db.relationship('Element', lazy=True, backref='user')
 
 
-    def __init__(self, username, email, password):
-        self.user_id = self.set_id()
-        self.username = username
-        self.email = email
-        self.password = self.set_password(password)
+#     def __init__(self, username, email, password):
+#         self.user_id = self.set_id()
+#         self.username = username
+#         self.email = email
+#         self.password = self.set_password(password)
 
-    def set_id(self):
-        return str(uuid.uuid4())
+#     def set_id(self):
+#         return str(uuid.uuid4())
     
-    def get_id(self):
-        return str(self.user_id)
+#     def get_id(self):
+#         return str(self.user_id)
     
-    def set_password(self, password):
-        return generate_password_hash(password)
+#     def set_password(self, password):
+#         return generate_password_hash(password)
     
-    def __repr__(self):
-        return f"<User: {self.username}>"
+#     def __repr__(self):
+#         return f"<User: {self.username}>"
     
 
 
