@@ -60,7 +60,7 @@ class Element(db.Model):
     category = db.Column(db.String(50))
     notes = db.Column(db.String)
     date_added = db.Column(db.DateTime, default = datetime.utcnow())
-    user_id = db.Column(db.String, db.ForeignKey('user.user_id'))
+    user_id = db.Column(db.String, nullable=False)
 
     def __init__(self, name, user_id, notes = ""):
         self.element_id = self.set_id()
