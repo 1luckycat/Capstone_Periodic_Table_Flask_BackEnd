@@ -70,7 +70,7 @@ def get_periodic_table():
 
 
 # !!!---- for api can be a dictionary, but needs to be an object when adding to the database in routes due to ROM
-@api.route('/study', methods=['GET'])
+@api.route('/study/<user_id>', methods=['GET'])
 @jwt_required()
 def get_info():
      
