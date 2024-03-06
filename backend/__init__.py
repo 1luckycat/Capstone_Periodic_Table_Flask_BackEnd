@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 
 # internal imports
 from config import Config
-from .models import login_manager, db
+from .models import db
 from .helpers import JSONEncoder
 from .api.routes import api
 
@@ -16,9 +16,9 @@ app.config.from_object(Config)
 jwt = JWTManager(app)
 
 
-login_manager.init_app(app)
-login_manager.login_message = "Please log in"
-login_manager.login_message_category = 'warning'
+# login_manager.init_app(app)
+# login_manager.login_message = "Please log in"
+# login_manager.login_message_category = 'warning'
 
 
 app.register_blueprint(api)
