@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required
 import requests
 
 # internal imports
-from backend.models import Element, User, db, element_schema, elements_schema, element_table_schema
+from backend.models import Element, db, element_schema, elements_schema, element_table_schema
 
 api = Blueprint('api', __name__, url_prefix='/api')
 

@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+# from flask_login import UserMixin, LoginManager
 from datetime import datetime
 import uuid 
 from flask_marshmallow import Marshmallow
@@ -8,13 +8,13 @@ import requests
 
 
 db = SQLAlchemy()
-login_manager = LoginManager()
+# login_manager = LoginManager()
 ma = Marshmallow()
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(user_id)
 
 
 # class User(db.Model, UserMixin):
