@@ -6,6 +6,10 @@ from flask_marshmallow import Marshmallow
 import requests
 
 
+# internal import
+from .helpers import get_table
+
+
 db = SQLAlchemy()
 ma = Marshmallow()
 
