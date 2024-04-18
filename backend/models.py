@@ -7,7 +7,7 @@ import requests
 
 
 # internal import
-from helpers import get_table
+from .helpers import get_table
 
 
 db = SQLAlchemy()
@@ -42,7 +42,7 @@ class Element(db.Model):
         self.melt = None
         self.category = None
         self.notes = notes
-        # self.api_call()     <----- if using render api
+        # self.api_call()     <----- if using old way with render api
 
         data = get_table()
         if data:
@@ -58,6 +58,7 @@ class Element(db.Model):
                     self.melt = item['meltingPoint']
                     self.category = item['groupBlock']
 
+                    # might not need
                     # element = {
                     #     'name': self.name,
                     #     'symbol': self.symbol,
@@ -77,7 +78,7 @@ class Element(db.Model):
 
         
 # !!!---- for api can be a dictionary, but needs to be an object when adding to the database in routes due to ROM
-    # def api_call(self):
+    # def api_call(self):          <-------correct old way getting data from render.com
     #     listy = []
     #     r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
     #     if r.status_code == 200:
@@ -111,7 +112,7 @@ class Element(db.Model):
     #                 'category': self.category
     #             }
     #             listy.append(element)
-    #     return listy
+    #     return listy                <------end of old way
             
 
     def set_id(self):
@@ -154,7 +155,7 @@ class Element(db.Model):
             return None
 
 
-    # def getInfo(self, name):
+    # def getInfo(self, name):        <-------correct old way getting data from render.com
     #     listy = []
     #     r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
     #     if r.status_code == 200:
@@ -186,7 +187,7 @@ class Element(db.Model):
 
     #             listy.append(element)
 
-    #     return listy
+    #     return listy             <------- end of old way
     #     # If not having to add to a list
     #     # return element
     

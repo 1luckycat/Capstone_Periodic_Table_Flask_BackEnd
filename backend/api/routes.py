@@ -3,6 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required
 import requests
 
 # internal imports
+from backend.helpers import get_table
 from backend.models import Element, db, element_schema, elements_schema, element_table_schema
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -42,26 +43,47 @@ def get_periodic_table():
 
     # return elements
 
+    data = get_table()
+    if data:
+        listy = []
+        for item in data:
+            element = {
+                'name': item['name'],
+                'symbol': item['symbol'],
+                'atomic_number': item['atomicNumber'],
+                'xpos': item['group'],
+                'ypos': item['period'],
+                'category': item['groupBlock']
+            }
+            listy.append(element)
+        return jsonify(listy)
+    else:
+        return jsonify({'error': 'Failed to fetch periodic table data from the API'}), 500
+
+
 
 # THIS ONE WORKS TO GET SPECIFIC DATA FOR THE PERIODIC TABLE
-    listy = []
-    r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
-    if r.status_code == 200:
-            data = r.json()
+    # listy = []         <-------correct old way getting data from render.com
+    # r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
+    # if r.status_code == 200:
+    #         data = r.json()
         
-            for item in data['data']:
-                element = {
-                    'name': item['name'], 
-                    'symbol': item['symbol'],
-                    'atomic_number' : item['number'],
-                    'xpos': item['xpos'],
-                    'ypos': item['ypos'],
-                    'category': item['category']
-                }
+    #         for item in data['data']:
+    #             element = {
+    #                 'name': item['name'], 
+    #                 'symbol': item['symbol'],
+    #                 'atomic_number' : item['number'],
+    #                 'xpos': item['xpos'],
+    #                 'ypos': item['ypos'],
+    #                 'category': item['category']
+    #             }
 
-                listy.append(element)
-            return jsonify(listy)
+    #             listy.append(element)
+    #         return jsonify(listy)          <----- end of old way
     
+
+
+
 
     # table_elements = Element.query.all()
     # response = element_table_schema.dump(table_elements)
