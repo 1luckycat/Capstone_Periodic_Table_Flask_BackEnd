@@ -20,10 +20,13 @@ class Element(db.Model):
     symbol = db.Column(db.String(10))
     atomic_number = db.Column(db.Integer)
     phase = db.Column(db.String(30))
-    atomic_mass = db.Column(db.Numeric(precision=10, scale=5))
+    # atomic_mass = db.Column(db.Numeric(precision=10, scale=5))  <-----correct old way with render.com
+    atomic_mass = db.Column(db.String(30))
     summary = db.Column(db.String)
-    boil = db.Column(db.Numeric(precision=10, scale=5))
-    melt = db.Column(db.Numeric(precision=10, scale=5))
+    # boil = db.Column(db.Numeric(precision=10, scale=5))   <-----correct old way with render.com
+    # melt = db.Column(db.Numeric(precision=10, scale=5))   <-----correct old way with render.com
+    boil = db.Column(db.String(50))
+    melt = db.Column(db.String(50))
     category = db.Column(db.String(50))
     notes = db.Column(db.String)
     date_added = db.Column(db.DateTime, default = datetime.utcnow())

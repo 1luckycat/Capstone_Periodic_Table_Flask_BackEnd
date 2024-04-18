@@ -98,21 +98,39 @@ def get_info(user_id):
      
     all_elements = Element.query.filter(Element.user_id == user_id).all()
     response = elements_schema.dump(all_elements)
+
+    if not response:
+        return jsonify({'message': 'No elements found for the specified user'}), 404
     return jsonify(response)
 
 
+# -----correct old way using render.com -------
+# @api.route('/study/create/<user_id>', methods=['POST'])
+# @jwt_required()
+# def add_element(user_id):
+#     data = request.json
+#     name = data['name']
+#     notes = data['notes']
+#     print(name)
+#     ele = Element(name, user_id, notes)
+    
+#     db.session.add(ele)
+#     db.session.commit()    
+#     return jsonify(element_schema.dump(ele))
 
 @api.route('/study/create/<user_id>', methods=['POST'])
 @jwt_required()
 def add_element(user_id):
     data = request.json
-    name = data['name']
-    notes = data['notes']
-    print(name)
-    ele = Element(name, user_id, notes)
+    name = data.get('name')
+    notes = data.get('notes')
+
+    if not name:
+        return jsonify({'error': 'Element name is required'}), 400
     
+    ele = Element(name, user_id, notes)
     db.session.add(ele)
-    db.session.commit()    
+    db.session.commit()
     return jsonify(element_schema.dump(ele))
 
 
