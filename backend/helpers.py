@@ -17,9 +17,11 @@ def get_table():
 
      response = requests.get(url, headers=headers)
 
-     data = response.json()
-     print(data)
-
+     if response.status_code == 200:
+          return response.json()
+     else:
+          print(f"Error fetching data: {response.status_code}")
+          return None
 
 
 

@@ -7,7 +7,7 @@ import requests
 
 
 # internal import
-from .helpers import get_table
+from helpers import get_table
 
 
 db = SQLAlchemy()
@@ -42,44 +42,76 @@ class Element(db.Model):
         self.melt = None
         self.category = None
         self.notes = notes
-        self.api_call()
+        # self.api_call()     <----- if using render api
+
+        data = get_table()
+        if data:
+            for item in data:
+                if item['name'] == self.name:
+                    self.name = item['name']
+                    self.symbol = item['symbol']
+                    self.atomic_number = item['atomicNumber']
+                    self.phase = item['standardState']
+                    self.atomic_mass = item['atomicMass']
+                    self.summary = item['history']
+                    self.boil = item['boilingPoint']
+                    self.melt = item['meltingPoint']
+                    self.category = item['groupBlock']
+
+                    # element = {
+                    #     'name': self.name,
+                    #     'symbol': self.symbol,
+                    #     'atomic_number': self.atomic_number,
+                    #     'phase': self.phase,
+                    #     'atomic_mass': self.atomic_mass,
+                    #     'summary': self.summary,
+                    #     'boiling_point': self.boil,
+                    #     'melting_point': self.melt,
+                    #     'category': self.category
+                    # }
+                
+        else:
+            print("Failed to fetch data from the API")
+
+
+
         
 # !!!---- for api can be a dictionary, but needs to be an object when adding to the database in routes due to ROM
-    def api_call(self):
-        listy = []
-        r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
-        if r.status_code == 200:
-            data = r.json()
-            # print(data)
+    # def api_call(self):
+    #     listy = []
+    #     r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
+    #     if r.status_code == 200:
+    #         data = r.json()
+    #         # print(data)
             
-        else:
-            print(f"Check name: {r.status_code}")
+    #     else:
+    #         print(f"Check name: {r.status_code}")
 
-        for item in data['data']:
-            if item['name'] == self.name:
-                self.name = item['name']
-                self.symbol = item['symbol']
-                self.atomic_number = item['number']
-                self.phase = item['phase']
-                self.atomic_mass = item['atomic_mass']
-                self.summary = item['summary']
-                self.boil = item['boil']
-                self.melt = item['melt']
-                self.category = item['category']
+    #     for item in data['data']:
+    #         if item['name'] == self.name:
+    #             self.name = item['name']
+    #             self.symbol = item['symbol']
+    #             self.atomic_number = item['number']
+    #             self.phase = item['phase']
+    #             self.atomic_mass = item['atomic_mass']
+    #             self.summary = item['summary']
+    #             self.boil = item['boil']
+    #             self.melt = item['melt']
+    #             self.category = item['category']
                 
-                element = {
-                    'name': self.name, 
-                    'symbol': self.symbol,
-                    'atomic_number' : self.atomic_number,
-                    'phase' : self.phase,
-                    'atomic_mass' : self.atomic_mass,
-                    'summary': self.summary,
-                    'boiling_point': self.boil,
-                    'melting_point': self.melt,
-                    'category': self.category
-                }
-                listy.append(element)
-        return listy
+    #             element = {
+    #                 'name': self.name, 
+    #                 'symbol': self.symbol,
+    #                 'atomic_number' : self.atomic_number,
+    #                 'phase' : self.phase,
+    #                 'atomic_mass' : self.atomic_mass,
+    #                 'summary': self.summary,
+    #                 'boiling_point': self.boil,
+    #                 'melting_point': self.melt,
+    #                 'category': self.category
+    #             }
+    #             listy.append(element)
+    #     return listy
             
 
     def set_id(self):
@@ -91,40 +123,72 @@ class Element(db.Model):
     
 
     def getInfo(self, name):
-        listy = []
-        r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
-        if r.status_code == 200:
-            data = r.json()
+        data = get_table()
+        if data:
+            for item in data:
+                if name == item['name'].lower():
+                    self.name = item['name']
+                    self.symbol = item['symbol']
+                    self.atomic_number = item['atomicNumber']
+                    self.phase = item['standardState']
+                    self.atomic_mass = item['atomicMass']
+                    self.summary = item['history']
+                    self.boil = item['boilingPoint']
+                    self.melt = item['meltingPoint']
+                    self.category = item['groupBlock']
 
-        for item in data['data']:
-            if name == item['name'].lower():
-                self.name = item['name']
-                self.symbol = item['symbol']
-                self.atomic_number = item['number']
-                self.phase = item['phase']
-                self.atomic_mass = item['atomic_mass']
-                self.summary = item['summary']
-                self.boil = item['boil']
-                self.melt = item['melt']
-                self.category = item['category']
+                    return {
+                        'name': self.name, 
+                        'symbol': self.symbol,
+                        'atomic_number' : self.atomic_number,
+                        'phase' : self.phase,
+                        'atomic_mass' : self.atomic_mass,
+                        'summary': self.summary,
+                        'boiling_point': self.boil,
+                        'melting_point': self.melt,
+                        'category': self.category
+                    }
                 
-                element = {
-                    'name': self.name, 
-                    'symbol': self.symbol,
-                    'atomic_number' : self.atomic_number,
-                    'phase' : self.phase,
-                    'atomic_mass' : self.atomic_mass,
-                    'summary': self.summary,
-                    'boiling_point': self.boil,
-                    'melting_point': self.melt,
-                    'category': self.category
-                }
+        else:
+            print("Failed to fetch data from the API")
+            return None
 
-                listy.append(element)
 
-        return listy
-        # If not having to add to a list
-        # return element
+    # def getInfo(self, name):
+    #     listy = []
+    #     r = requests.get(f"https://kineticzephyr.onrender.com/periodictable")
+    #     if r.status_code == 200:
+    #         data = r.json()
+
+    #     for item in data['data']:
+    #         if name == item['name'].lower():
+    #             self.name = item['name']
+    #             self.symbol = item['symbol']
+    #             self.atomic_number = item['number']
+    #             self.phase = item['phase']
+    #             self.atomic_mass = item['atomic_mass']
+    #             self.summary = item['summary']
+    #             self.boil = item['boil']
+    #             self.melt = item['melt']
+    #             self.category = item['category']
+                
+    #             element = {
+    #                 'name': self.name, 
+    #                 'symbol': self.symbol,
+    #                 'atomic_number' : self.atomic_number,
+    #                 'phase' : self.phase,
+    #                 'atomic_mass' : self.atomic_mass,
+    #                 'summary': self.summary,
+    #                 'boiling_point': self.boil,
+    #                 'melting_point': self.melt,
+    #                 'category': self.category
+    #             }
+
+    #             listy.append(element)
+
+    #     return listy
+    #     # If not having to add to a list
+    #     # return element
     
 
     def __repr__(self):
@@ -146,3 +210,7 @@ class ElementTableSchema(ma.Schema):
 
 element_table_schema = ElementSchema(many=True)
 
+
+attempt = Element('hydrogen', '1')
+info_dict = attempt.getInfo('hydrogen')
+print(info_dict)
