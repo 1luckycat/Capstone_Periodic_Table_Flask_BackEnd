@@ -43,17 +43,33 @@ def get_periodic_table():
 
     # return elements
 
+    # data = get_table()
+    # if data:
+    #     listy = []
+    #     for item in data:
+    #         element = {
+    #             'name': item['name'],
+    #             'symbol': item['symbol'],
+    #             'atomic_number': item['atomicNumber'],
+    #             'xpos': item['group'],
+    #             'ypos': item['period'],
+    #             'category': item['groupBlock']
+    #         }
+    #         listy.append(element)
+    #     return jsonify(listy)
+    # else:
+    #     return jsonify({'error': 'Failed to fetch periodic table data from the API'}), 500
     data = get_table()
     if data:
         listy = []
-        for item in data:
+        for item in data['data']:
             element = {
                 'name': item['name'],
                 'symbol': item['symbol'],
-                'atomic_number': item['atomicNumber'],
-                'xpos': item['group'],
-                'ypos': item['period'],
-                'category': item['groupBlock']
+                'atomic_number': item['number'],
+                'xpos': item['xpos'],
+                'ypos': item['ypos'],
+                'category': item['category']
             }
             listy.append(element)
         return jsonify(listy)

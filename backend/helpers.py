@@ -8,11 +8,16 @@ requests_cache.install_cache('element_cache', backend='sqlite')
 
 
 def get_table():
-     url = "https://periodictable.p.rapidapi.com/"
+     # url = "https://periodictable.p.rapidapi.com/"
+     url = "https://periodic-table-api.p.rapidapi.com/getAllElements"
 
+     # headers = {
+	#      "X-RapidAPI-Key": os.environ.get('api_key'),
+	#      "X-RapidAPI-Host": "periodictable.p.rapidapi.com"
+     # }
      headers = {
-	     "X-RapidAPI-Key": os.environ.get('api_key'),
-	     "X-RapidAPI-Host": "periodictable.p.rapidapi.com"
+          "X-RapidAPI-Key": os.environ.get('api_key'),
+          "X-RapidAPI-Host": "periodic-table-api.p.rapidapi.com"
      }
 
      response = requests.get(url, headers=headers)

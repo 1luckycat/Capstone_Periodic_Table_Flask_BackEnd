@@ -20,13 +20,13 @@ class Element(db.Model):
     symbol = db.Column(db.String(10))
     atomic_number = db.Column(db.Integer)
     phase = db.Column(db.String(30))
-    # atomic_mass = db.Column(db.Numeric(precision=10, scale=5))  <-----correct old way with render.com
-    atomic_mass = db.Column(db.String(30))
+    atomic_mass = db.Column(db.Numeric(precision=10, scale=5))  
+    # atomic_mass = db.Column(db.String(30))    <-----correct new way with other api
     summary = db.Column(db.String)
-    # boil = db.Column(db.Numeric(precision=10, scale=5))   <-----correct old way with render.com
-    # melt = db.Column(db.Numeric(precision=10, scale=5))   <-----correct old way with render.com
-    boil = db.Column(db.String(50))
-    melt = db.Column(db.String(50))
+    boil = db.Column(db.Numeric(precision=10, scale=5))   
+    melt = db.Column(db.Numeric(precision=10, scale=5))   
+    # boil = db.Column(db.String(50))    <-----correct new way with other api
+    # melt = db.Column(db.String(50))    <-----correct new way with other api
     category = db.Column(db.String(50))
     notes = db.Column(db.String)
     date_added = db.Column(db.DateTime, default = datetime.utcnow())
@@ -47,36 +47,38 @@ class Element(db.Model):
         self.notes = notes
         # self.api_call()     <----- if using old way with render api
 
+        # data = get_table()
+        # if data:
+        #     for item in data:
+        #         if item['name'] == self.name:
+        #             self.name = item['name']
+        #             self.symbol = item['symbol']
+        #             self.atomic_number = item['atomicNumber']
+        #             self.phase = item['standardState']
+        #             self.atomic_mass = item['atomicMass']
+        #             self.summary = item['history']
+        #             self.boil = item['boilingPoint']
+        #             self.melt = item['meltingPoint']
+        #             self.category = item['groupBlock']
+                
+        # else:
+        #     print("Failed to fetch data from the API")
         data = get_table()
         if data:
-            for item in data:
+            for item in data['data']:
                 if item['name'] == self.name:
                     self.name = item['name']
                     self.symbol = item['symbol']
-                    self.atomic_number = item['atomicNumber']
-                    self.phase = item['standardState']
-                    self.atomic_mass = item['atomicMass']
-                    self.summary = item['history']
-                    self.boil = item['boilingPoint']
-                    self.melt = item['meltingPoint']
-                    self.category = item['groupBlock']
-
-                    # might not need
-                    # element = {
-                    #     'name': self.name,
-                    #     'symbol': self.symbol,
-                    #     'atomic_number': self.atomic_number,
-                    #     'phase': self.phase,
-                    #     'atomic_mass': self.atomic_mass,
-                    #     'summary': self.summary,
-                    #     'boiling_point': self.boil,
-                    #     'melting_point': self.melt,
-                    #     'category': self.category
-                    # }
+                    self.atomic_number = item['number']
+                    self.phase = item['phase']
+                    self.atomic_mass = item['atomic_mass']
+                    self.summary = item['summary']
+                    self.boil = item['boil']
+                    self.melt = item['melt']
+                    self.category = item['category']
                 
         else:
             print("Failed to fetch data from the API")
-
 
 
         
@@ -127,19 +129,48 @@ class Element(db.Model):
     
 
     def getInfo(self, name):
+        # data = get_table()
+        # if data:
+        #     for item in data:
+        #         if name == item['name'].lower():
+        #             self.name = item['name']
+        #             self.symbol = item['symbol']
+        #             self.atomic_number = item['atomicNumber']
+        #             self.phase = item['standardState']
+        #             self.atomic_mass = item['atomicMass']
+        #             self.summary = item['history']
+        #             self.boil = item['boilingPoint']
+        #             self.melt = item['meltingPoint']
+        #             self.category = item['groupBlock']
+
+        #             return {
+        #                 'name': self.name, 
+        #                 'symbol': self.symbol,
+        #                 'atomic_number' : self.atomic_number,
+        #                 'phase' : self.phase,
+        #                 'atomic_mass' : self.atomic_mass,
+        #                 'summary': self.summary,
+        #                 'boiling_point': self.boil,
+        #                 'melting_point': self.melt,
+        #                 'category': self.category
+        #             }
+                
+        # else:
+        #     print("Failed to fetch data from the API")
+        #     return None
         data = get_table()
         if data:
-            for item in data:
+            for item in data['data']:
                 if name == item['name'].lower():
                     self.name = item['name']
                     self.symbol = item['symbol']
-                    self.atomic_number = item['atomicNumber']
-                    self.phase = item['standardState']
-                    self.atomic_mass = item['atomicMass']
-                    self.summary = item['history']
-                    self.boil = item['boilingPoint']
-                    self.melt = item['meltingPoint']
-                    self.category = item['groupBlock']
+                    self.atomic_number = item['number']
+                    self.phase = item['phase']
+                    self.atomic_mass = item['atomic_mass']
+                    self.summary = item['summary']
+                    self.boil = item['boil']
+                    self.melt = item['melt']
+                    self.category = item['category']
 
                     return {
                         'name': self.name, 
@@ -214,7 +245,3 @@ class ElementTableSchema(ma.Schema):
 
 element_table_schema = ElementSchema(many=True)
 
-
-attempt = Element('hydrogen', '1')
-info_dict = attempt.getInfo('hydrogen')
-print(info_dict)
